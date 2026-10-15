@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src 'self' mina-audio:; connect-src 'self' mina-audio:; object-src 'none'; base-uri 'none'">
+  <title>MINA Voice Studio</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand"><img src="assets/mina-icon.png" alt=""><div>MINA<span>VOICE STUDIO</span></div></div>
+    <div class="sidebar-label">TU ESTUDIO DE VOZ</div>
+    <div class="nav-item"><span>◉</span> Generar audio</div>
+    <div class="engine-card">
+      <div class="engine-title"><span id="engine-dot" class="dot"></span><strong id="engine-title">Comprobando motor</strong></div>
+      <p id="engine-info">Un motor propio, instalado en esta PC.</p>
+      <button id="setup" class="secondary full">Preparar motor</button>
+      <button id="unload" class="text-button full">Liberar memoria</button>
+    </div>
+    <div class="local-note"><span>⌁</span><strong>La voz se genera aquí</strong><p>Tu referencia y tus audios permanecen en esta PC. Solo la preparación y descarga de modelos necesitan internet.</p></div>
+    <details class="advanced"><summary>Configuración avanzada</summary><button id="python" class="text-button">Usar Python ya preparado…</button><p>Opcional, si ya tienes Chatterbox y PyTorch instalados.</p></details>
+    <div class="sidebar-footer">MINA Voice Studio <span>1.0</span></div>
+  </aside>
+  <main>
+    <header><div class="eyebrow">DE TEXTO A VOZ, A TU MANERA</div><h1>Una voz. Tus palabras.</h1><p>Carga una referencia y transforma tu texto en audio.</p></header>
+    <div class="workspace">
+      <section class="card reference-card">
+        <div class="section-title"><span class="step">01</span><h2>Tu referencia</h2></div>
+        <button id="import" class="upload-zone"><span class="upload-icon">↑</span><strong>Cargar audio</strong><span>WAV, MP3, OGG, M4A y más</span></button>
+        <p class="tip">Elige una grabación de voz clara y sin música. Se usarán hasta 30 segundos.</p>
+        <div id="reference-info" hidden><div class="file-row"><span>♫</span><div><strong id="reference-name"></strong><small id="reference-duration"></small></div></div><audio id="reference-player" controls preload="none"></audio></div>
+        <div class="divider"></div>
+        <label for="device">Procesamiento</label>
+        <select id="device"><option value="cuda">GPU NVIDIA · más rápido</option><option value="cpu">CPU · sin ocupar tu GPU</option></select>
+        <p class="tiny">CPU puede tardar más. El motor se libera automáticamente tras 2 minutos sin usarlo.</p>
+        <label for="language">Idioma del texto</label>
+        <select id="language"><option value="es">Español</option><option value="en">Inglés</option><option value="pt">Portugués</option><option value="fr">Francés</option><option value="de">Alemán</option><option value="it">Italiano</option><option value="ja">Japonés</option></select>
+      </section>
+      <section class="card editor-card">
+        <div class="section-title"><span class="step">02</span><h2>Lo que quieres decir</h2><span id="count" class="count">0 / 5000</span></div>
+        <textarea id="text" maxlength="5000" placeholder="Escribe una frase, una historia o ese mensaje que quieres escuchar…" spellcheck="true"></textarea>
+        <div class="expression"><div><label for="expression">Expresividad</label><span id="expression-label">Equilibrada</span></div><input id="expression" type="range" min="0.25" max="0.95" step="0.05" value="0.60"><div class="range-labels"><span>Suave y natural</span><span>Más expresiva</span></div></div>
+        <div class="generate-row"><button id="generate" class="primary" disabled><span>✦</span> Generar voz</button><button id="cancel" class="secondary" hidden>Cancelar</button><span class="format-note">WAV · audio sin comprimir</span></div>
+      </section>
+    </div>
+    <div id="status" role="status" aria-live="polite"><span class="status-dot"></span><span id="status-message">Tu estudio está listo.</span></div>
+    <section class="card output-card">
+      <div class="section-title"><span class="step">03</span><h2>Escucha el resultado</h2><span id="output-meta" class="count"></span></div>
+      <div id="empty-output">Tu próximo audio aparecerá aquí. Puedes escucharlo y guardarlo como WAV.</div>
+      <div id="output" hidden><div class="audio-row"><audio id="player" controls preload="metadata"></audio><button id="save" class="secondary">↓ Guardar WAV</button></div></div>
+    </section>
+    <section class="history-section"><div class="history-title"><h2>Audios recientes</h2><span>Guardados en esta PC</span></div><div id="history"><p class="tiny">Aún no has generado ningún audio.</p></div></section>
+  </main>
+  <script src="renderer.js"></script>
+</body>
+</html>
